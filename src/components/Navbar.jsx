@@ -18,7 +18,7 @@ export default function Navbar() {
             transition={{ duration: 0.8, ease: 'easeOut' }}
             className="fixed top-0 left-0 right-0 z-50 glass"
         >
-            <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+            <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-6 md:py-8">
                 {/* Logo */}
                 <a href="#hero" className="flex items-center gap-2">
                     <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-neon-blue to-neon-purple flex items-center justify-center glow-blue">
