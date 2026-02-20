@@ -42,6 +42,7 @@ export default function CustomCursor() {
         const ripples = [];
 
         let hoverState = false; // Accessible immediately in animation loop
+        let magneticElement = null;
 
         // --- Animation Loop ---
         const animate = () => {
@@ -143,6 +144,23 @@ export default function CustomCursor() {
             // Ensure crisp rendering in loop
             ctx.shadowBlur = 0;
 
+            // --- Magnetic Effect Update ---
+            if (magneticElement) {
+                const rect = magneticElement.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+
+                // Calculate distance from center of the hovered element
+                const distX = mouseX - centerX;
+                const distY = mouseY - centerY;
+
+                // Apply magnetic pull
+                const pullX = distX * 0.2;
+                const pullY = distY * 0.2;
+
+                magneticElement.style.transform = `translate(${pullX}px, ${pullY}px)`;
+            }
+
             rafId = requestAnimationFrame(animate);
         };
 
@@ -185,6 +203,13 @@ export default function CustomCursor() {
             if (interactive) {
                 setIsHovering(true);
                 hoverState = true;
+
+                // Activate magnetic effect on buttons
+                if (interactive.classList.contains('btn-neon') || interactive.classList.contains('btn-neon-outline')) {
+                    magneticElement = interactive;
+                    // Set linear transition to prevent lag while following mouse
+                    interactive.style.transition = 'transform 0.1s linear, background-color 0.3s, box-shadow 0.3s, color 0.3s';
+                }
             }
         };
 
@@ -195,6 +220,14 @@ export default function CustomCursor() {
             if (interactive) {
                 setIsHovering(false);
                 hoverState = false;
+
+                // Release magnetic effect
+                if (magneticElement === interactive) {
+                    magneticElement.style.transform = 'translate(0px, 0px)';
+                    // Restore smooth bounce-back transition
+                    magneticElement.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s, box-shadow 0.3s, color 0.3s';
+                    magneticElement = null;
+                }
             }
         };
 
