@@ -24,6 +24,21 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Hide native cursor on desktop to replace with Custom Cursor */
+@media (pointer: fine) {
+
+  body,
+  a,
+  button,
+  input,
+  textarea,
+  select,
+  [role="button"],
+  .cursor-pointer {
+    cursor: none !important;
+  }
+}
+
 body {
   font-family: var(--font-family-sans);
   background: var(--color-dark-900);
